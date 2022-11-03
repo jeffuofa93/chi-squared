@@ -5,6 +5,7 @@ import { useState } from "react";
 
 const Home: NextPage = () => {
   const rowLabels = ["White Collar", "Blue Collar", "No Collar"];
+  const test = [];
 
   const initialData = [
     [90, 60, 104, 95],
