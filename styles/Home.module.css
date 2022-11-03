@@ -3,7 +3,7 @@
 }
 
 .main {
-  min-height: 100vh;
+  min-height: 50vh;
   padding: 4rem 0;
   flex: 1;
   display: flex;
@@ -41,6 +41,7 @@
 
 .title {
   margin: 0;
+  margin-bottom: 5rem;
   line-height: 1.15;
   font-size: 4rem;
 }
@@ -106,6 +107,19 @@
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+}
+
+.tableTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.reset {
+    margin: 3rem;
+    padding: 0;
+    border: 0;
+    horiz-align: left;
 }
 
 @media (max-width: 600px) {
