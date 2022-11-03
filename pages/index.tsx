@@ -27,13 +27,12 @@ const Home: NextPage = () => {
   const calcTotal = (observedData: number[][]) =>
     observedData.reduce((a, b) => a + b.reduce((c, d) => c + d, 0), 0);
 
-  const rowSums = createSumRow(observedData);
-  const columnSums = createSumColumn(observedData);
-  const totalVal = calcTotal(observedData);
+  const rowSums: number[] = new Array(observedData.length).fill(0);
+  const colSums: number[] = new Array(observedData[0].length).fill(0);
 
   const [rowTotals, setRowTotals] = useState(rowSums);
-  const [colTotals, setColTotals] = useState(columnSums);
-  const [total, setTotal] = useState(totalVal);
+  const [colTotals, setColTotals] = useState(colSums);
+  const [total, setTotal] = useState(0);
 
   const calcChiSquared = (
     observedData: number[][],
@@ -56,16 +55,20 @@ const Home: NextPage = () => {
     );
   };
 
-  const chiSquared = calcChiSquared(observedData, rowTotals, colTotals, total);
-  const [chiSquare, setChiSquare] = useState(chiSquared);
+  const [chiSquare, setChiSquare] = useState(0);
 
   const handleCellChange = (i: number, j: number, event: any) => {
     const newTable = [...observedData];
     newTable[i][j] = parseInt(event.target.value);
-    const rowTotals = createSumRow(newTable);
-    const colTotals = createSumColumn(newTable);
-    const total = calcTotal(newTable);
-    const chiSquare = calcChiSquared(newTable, rowTotals, colTotals, total);
+    setObservedData(newTable);
+  };
+
+  const handleReset = () => {
+    const newTable = [...initialData];
+    const rowTotals = [...rowSums];
+    const colTotals = [...colSums];
+    const total = 0;
+    const chiSquare = 0;
     setObservedData(newTable);
     setRowTotals(rowTotals);
     setColTotals(colTotals);
@@ -73,13 +76,11 @@ const Home: NextPage = () => {
     setChiSquare(chiSquare);
   };
 
-  const handleReset = () => {
-    const newTable = [...initialData];
-    const rowTotals = createSumRow(newTable);
-    const colTotals = createSumColumn(newTable);
-    const total = calcTotal(newTable);
-    const chiSquare = calcChiSquared(newTable, rowTotals, colTotals, total);
-    setObservedData(newTable);
+  const handleCalcChiSquare = () => {
+    const rowTotals = createSumRow(observedData);
+    const colTotals = createSumColumn(observedData);
+    const total = calcTotal(observedData);
+    const chiSquare = calcChiSquared(observedData, rowTotals, colTotals, total);
     setRowTotals(rowTotals);
     setColTotals(colTotals);
     setTotal(total);
@@ -150,7 +151,11 @@ const Home: NextPage = () => {
           <input type="number" value={chiSquare.toFixed(2)} readOnly={true} />
         </div>
 
-        <div>
+        <div className={styles.reset}>
+          <button onClick={handleCalcChiSquare}>Calculate Chi Squared</button>
+        </div>
+
+        <div className={styles.reset}>
           <button onClick={handleReset}>Reset</button>
         </div>
       </main>
